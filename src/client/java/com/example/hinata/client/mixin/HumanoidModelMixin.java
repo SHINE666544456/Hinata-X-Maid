@@ -8,8 +8,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import com.example.hinata.MaidUtil;
-
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.player.PlayerModel;
 import net.minecraft.client.model.geom.ModelPart;
@@ -50,14 +48,17 @@ public abstract class HumanoidModelMixin {
                                           CallbackInfoReturnable<MeshDefinition> cir) {
         PartDefinition headDef = cir.getReturnValue().getRoot().getChild("head");
 
+        CubeDeformation big  = new CubeDeformation(0.75f);
+        CubeDeformation tipD = new CubeDeformation(0.6f);
+
         headDef.addOrReplaceChild(EAR_R, CubeListBuilder.create()
-            .texOffs(56, 16).addBox(-4.0f, -10.0f, -2.0f, 3.0f, 2.0f, 1.0f)   // base
-            .texOffs(56, 19).addBox(-3.0f, -12.0f, -2.0f, 1.0f, 2.0f, 1.0f),  // tip
+            .texOffs(56, 16).addBox(-4.0f, -10.0f, -2.0f, 3.0f, 2.0f, 1.0f, big)    // base
+            .texOffs(56, 19).addBox(-3.0f, -13.0f, -2.0f, 1.0f, 2.0f, 1.0f, tipD),  // tip
             PartPose.ZERO);
 
         headDef.addOrReplaceChild(EAR_L, CubeListBuilder.create()
-            .texOffs(56, 22).addBox(1.0f, -10.0f, -2.0f, 3.0f, 2.0f, 1.0f)    // base
-            .texOffs(56, 25).addBox(2.0f, -12.0f, -2.0f, 1.0f, 2.0f, 1.0f),   // tip
+            .texOffs(56, 22).addBox(1.0f, -10.0f, -2.0f, 3.0f, 2.0f, 1.0f, big)     // base
+            .texOffs(56, 25).addBox(2.0f, -13.0f, -2.0f, 1.0f, 2.0f, 1.0f, tipD),   // tip
             PartPose.ZERO);
     }
 
@@ -66,11 +67,10 @@ public abstract class HumanoidModelMixin {
     private void hinata$setupAnim(HumanoidRenderState state, CallbackInfo ci) {
         boolean isPlayerModel = (Object) this instanceof PlayerModel;
 
-        // Cat ears: only when the helmet is named made/maid. Never on the player's own model.
-        boolean ears = !isPlayerModel
-            && MaidUtil.isMaidName(state.headEquipment.get(DataComponents.CUSTOM_NAME));
-        if (head.hasChild(EAR_R)) head.getChild(EAR_R).visible = ears;
-        if (head.hasChild(EAR_L)) head.getChild(EAR_L).visible = ears;
+        // Cat ears: always enabled. They only show where the armor texture paints the ear strip,
+        // i.e. on the maid helmets, so no name lookup is needed (it didn't work on players).
+        if (head.hasChild(EAR_R)) head.getChild(EAR_R).visible = true;
+        if (head.hasChild(EAR_L)) head.getChild(EAR_L).visible = true;
 
         if (isPlayerModel) return; // never touch the player's own arms
 
