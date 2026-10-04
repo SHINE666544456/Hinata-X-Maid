@@ -1,0 +1,15 @@
+{
+	"schemaVersion": 1,
+	"id": "hinata_armor",
+	"version": "${version}",
+	"name": "Hinata Armor",
+	"description": "Diamond armor renamed to 'Hinata' is drawn as Hinata's outfit. Armor renamed to 'made'/'maid' becomes a maid outfit with cat ears: netherite = pink, diamond = black. Client side only.",
+	"license": "All-Rights-Reserved",
+	"environment": "client",
+	"mixins": [ "hinata_armor.mixins.json", "hinata_armor.client.mixins.json" ],
+	"depends": {
+		"fabricloader": ">=0.19.5",
+		"minecraft": "~1.21.11",
+		"java": ">=21"
+	}
+}

@@ -1,0 +1,6 @@
+{
+  "layers": {
+    "humanoid":          [ { "texture": "hinata:hinata" } ],
+    "humanoid_leggings": [ { "texture": "hinata:hinata" } ]
+  }
+}

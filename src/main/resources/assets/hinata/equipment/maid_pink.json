@@ -1,0 +1,6 @@
+{
+  "layers": {
+    "humanoid":          [ { "texture": "hinata:maid_pink" } ],
+    "humanoid_leggings": [ { "texture": "hinata:maid_pink" } ]
+  }
+}
